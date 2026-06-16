@@ -503,25 +503,46 @@
 <!-- ═══ TAB 7: CART ABANDONMENT ═══ -->
 <div id="tab-cart" class="tab-content"><div class="page">
   <div class="callout" style="border-left:3px solid var(--accent);margin-bottom:20px">
-    <strong style="color:var(--text)">May 2026 · Parent ASIN Level</strong> &nbsp;·&nbsp; Industry average cart abandonment is ~70% — TPS's top 15 ASINs average 61.2%, performing better than benchmark. Seven ASINs exceed 70% and are prime candidates for DSP cart-abandonment retargeting. 🟢 &lt;55% Good &nbsp;·&nbsp; 🟡 55–70% Monitor &nbsp;·&nbsp; 🔴 &gt;70% High Risk
+    <strong style="color:var(--text)">May 2026 · Parent ASIN Level</strong> &nbsp;·&nbsp; This tab has two sections: <strong style="color:var(--text)">all tracked ASINs</strong> (top 15 by ATC volume, regardless of advertising) and <strong style="color:var(--cyan)">DSP-advertised ASINs only</strong> (filtered to the 82 products that received DSP impressions in May). 🟢 &lt;55% Good &nbsp;·&nbsp; 🟡 55–70% Monitor &nbsp;·&nbsp; 🔴 &gt;70% High Risk
   </div>
   <div class="ig">
-    <div class="ic"><div class="il">Avg Abandonment Rate</div><div class="iv rd">61.2%</div><div class="id">Across top 15 parent ASINs — industry avg is ~70%, so TPS performs better</div></div>
+    <div class="ic"><div class="il">Avg Abandonment Rate</div><div class="iv rd">61.2%</div><div class="id">Across top 15 parent ASINs by ATC volume — all tracked products</div></div>
     <div class="ic g"><div class="il">Best Performer</div><div class="iv good">14.8%</div><div class="id">B0DYK1G91Y — lowest abandonment: 179 of 210 ATC users converted</div></div>
     <div class="ic a"><div class="il">Recovery Opportunity</div><div class="iv am">B0DBSSHSM9</div><div class="id">2,269 ATC users, only 25.8% converted — 74.2% abandonment rate</div></div>
   </div>
   <div class="section">
-    <div class="section-title">Cart Abandonment Rate by Parent ASIN — Top 15 by ATC Volume</div>
+    <div class="section-title">Section 1 — All Tracked ASINs: Cart Abandonment Rate by Parent ASIN (Top 15 by ATC Volume)</div>
     <div class="cg"><div class="cc full"><div class="ct">Cart Abandonment Rate % (lower is better)</div><div class="ch tall"><canvas id="cCart"></canvas></div></div></div>
   </div>
   <div class="section">
-    <div class="section-title">Cart Abandonment Detail — Top 15 ASINs</div>
+    <div class="section-title">Section 1 — Detail Table: Top 15 ASINs (All Tracked)</div>
     <div class="tw"><table class="dt">
       <thead><tr><th>Rank</th><th>Parent ASIN</th><th class="num">ATC Users</th><th class="num">ATC Events</th><th class="num">Purchase Users</th><th class="num">Purchase Events</th><th class="num">Abandon Rate %</th><th>Status</th></tr></thead>
       <tbody id="cartTbody"></tbody>
     </table></div>
     <div class="callout" style="border-left:3px solid var(--amber);margin-top:14px">
       <strong style="color:var(--text)">💡 Opportunity:</strong> ASINs with abandonment rates above 70% are prime candidates for DSP cart-abandonment retargeting campaigns. Re-engaging these high-intent shoppers with targeted display ads within 24–48 hours of ATC can recover 10–20% of abandoned sessions, based on category benchmarks.
+    </div>
+  </div>
+
+  <!-- DSP-ADVERTISED ASINs ONLY -->
+  <div class="section">
+    <div class="section-title">Section 2 — DSP-Advertised ASINs Only</div>
+    <div class="callout" style="border-left:3px solid var(--cyan);margin-bottom:16px">
+      <strong style="color:var(--text)">May 1–31, 2026</strong> &nbsp;·&nbsp; Filtered to the <strong style="color:var(--cyan)">82 parent ASINs</strong> that were directly advertised through DSP this month (cross-referenced with the ASIN Performance tab). This isolates cart behavior specifically for products receiving DSP impressions — useful for evaluating whether ad spend is translating into checkout completion, not just clicks.
+    </div>
+    <div class="ig">
+      <div class="ic"><div class="il">DSP-Advertised Avg Rate</div><div class="iv ac">58.5%</div><div class="id">Across all 82 DSP-advertised ASINs — better than the all-ASIN average of 61.2%</div></div>
+      <div class="ic g"><div class="il">Top DSP ASIN by ATC</div><div class="iv good">B0CM6WY3Y2</div><div class="id">Baby Jeggings Set of 4 — 4,470 ATC users, 44.6% abandonment</div></div>
+      <div class="ic a"><div class="il">Highest-Risk DSP ASIN</div><div class="iv am">B08YH2L6KT</div><div class="id">Swaddle Blankets Set of 3 — 86.0% abandonment, only 7 of 50 converted</div></div>
+    </div>
+    <div class="cg"><div class="cc full"><div class="ct">Cart Abandonment Rate — Top 20 DSP-Advertised ASINs by ATC Volume</div><div class="ch tall"><canvas id="cCartDsp"></canvas></div></div></div>
+    <div class="tw" style="margin-top:16px"><table class="dt">
+      <thead><tr><th>Rank</th><th>ASIN</th><th>Product Name</th><th class="num">ATC Users</th><th class="num">Purchase Users</th><th class="num">Abandon Rate %</th><th>Status</th></tr></thead>
+      <tbody id="cartDspTbody"></tbody>
+    </table></div>
+    <div class="callout" style="border-left:3px solid var(--green);margin-top:14px">
+      <strong style="color:var(--text)">📊 Takeaway:</strong> DSP-advertised products show a slightly lower abandonment rate (58.5%) than the broader catalog average (61.2%), suggesting DSP-driven traffic carries marginally higher purchase intent. Layette Gift Sets stand out as the category with the most abandonment risk despite strong NTB performance — a clear signal to layer in cart-abandonment retargeting on top of the current prospecting campaigns.
     </div>
   </div>
 </div></div>
@@ -786,6 +807,43 @@ cartData.forEach((r,i)=>{
   </tr>`);
 });
 
+// ═══ DSP-ADVERTISED ASINs — Cart Abandonment Cross-Reference ═══
+const cartDspData=[
+  {a:'B0CM6WY3Y2',name:'Baby Jeggings Set of 4 — 9–12 Months',atcU:4470,purU:2474,rate:44.6},
+  {a:'B0DBSSHSM9',name:'Learning Calendar Wall Chart — Homeschool Supply',atcU:2269,purU:585,rate:74.2},
+  {a:'B0F22J6S6H',name:'Baby Boy Rompers 2 Pack — 100% Cotton',atcU:2095,purU:956,rate:54.4},
+  {a:'B0DYJXWM75',name:'Baby Layette Gift Set for Boys — 30 Piece',atcU:1925,purU:459,rate:76.2},
+  {a:'B0DBNCJV9Q',name:'Baby Sleepers for Girls Set of 3 — Newborn',atcU:1729,purU:631,rate:63.5},
+  {a:'B0DYK3R8BC',name:'Baby Layette Gift Set for Girls — 30 Piece',atcU:1455,purU:419,rate:71.2},
+  {a:'B0DPXGB8Z7',name:'Baby Layette Gift Set for Baby Boys — 23 Piece',atcU:1425,purU:377,rate:73.5},
+  {a:'B0DTQ5FVJ1',name:'Baby Sleepers for Girls 3-Pack — 0–3 Months',atcU:1307,purU:645,rate:50.6},
+  {a:'B0F3DJLL31',name:'5 Pack Baby Girl Pants Set — 100% Cotton',atcU:1281,purU:525,rate:59.0},
+  {a:'B0CMC32DL7',name:'Baby Girl Short Sleeve Bodysuits',atcU:1232,purU:467,rate:62.1},
+  {a:'B0GH2L88Q9',name:'2-Pack Sleep and Play Baby Boy Clothes',atcU:1121,purU:461,rate:58.9},
+  {a:'B0DT4VXZZ3',name:'4-Pack Fitted Crib Sheet Set — Super Soft',atcU:1025,purU:574,rate:44.0},
+  {a:'B0GLWN981T',name:'2-Pack Sleep and Play Baby Girl Clothes',atcU:1018,purU:426,rate:58.1},
+  {a:'B0DG7GXFY5',name:'5 Pack Baby Boy or Girl Pants Set',atcU:1003,purU:451,rate:55.0},
+  {a:'B0GH2Q2HJ4',name:'2-Pack Sleep and Play Baby Boy Clothes (Alt)',atcU:936,purU:392,rate:58.1},
+  {a:'B0DG92C9NB',name:'Baby Layette Gift Set for Boys or Girls — 30pc',atcU:911,purU:294,rate:67.7},
+  {a:'B0DT727XM8',name:'5 Pack Baby Boy Pants Set — 100% Cotton',atcU:893,purU:383,rate:57.1},
+  {a:'B0GH2HHFFS',name:'2-Pack Sleep and Play Baby Boy Clothes (Alt 2)',atcU:869,purU:338,rate:61.1},
+  {a:'B08YJMBSBX',name:'Baby Swaddle Blankets Set of 3 — Baby Boy',atcU:845,purU:428,rate:49.4},
+  {a:'B0GLWR5VZD',name:'2-Pack Sleep and Play Baby Girl Clothes (Alt)',atcU:831,purU:382,rate:54.0},
+];
+
+cartDspData.forEach((r,i)=>{
+  const color=r.rate>70?'rd':r.rate>55?'am':'good';
+  $('cartDspTbody').insertAdjacentHTML('beforeend',`<tr>
+    <td style="font-weight:700;color:${MU}">#${i+1}</td>
+    <td style="font-family:monospace;font-size:11px;color:${C}">${r.a}</td>
+    <td style="font-size:11px;max-width:240px;overflow:hidden;text-overflow:ellipsis">${r.name}</td>
+    <td class="num">${r.atcU.toLocaleString()}</td>
+    <td class="num">${r.purU.toLocaleString()}</td>
+    <td class="num ${color}">${r.rate.toFixed(1)}%</td>
+    <td><span style="font-size:10px;font-weight:600;padding:2px 8px;border-radius:10px;${r.rate>70?'background:#ef444422;color:#fca5a5;border:1px solid #ef444444':r.rate>55?'background:#f59e0b22;color:#fbbf24;border:1px solid #f59e0b44':'background:#22c55e22;color:#4ade80;border:1px solid #22c55e44'}">${r.rate>70?'High Risk':r.rate>55?'Monitor':'Good'}</span></td>
+  </tr>`);
+});
+
 // ═══ CHARTS ═══
 // C1 - Spend/Revenue/ROAS
 new Chart($('c1'),{type:'bar',data:{labels:datesMay,datasets:[
@@ -899,6 +957,12 @@ new Chart($('cCart'),{type:'bar',data:{
   labels:cartData.map(r=>r.a),
   datasets:[{label:'Abandon Rate %',data:cartData.map(r=>r.rate),backgroundColor:cartData.map(r=>r.rate>70?'#ef444466':r.rate>55?'#f59e0b66':'#22c55e66'),borderColor:cartData.map(r=>r.rate>70?R:r.rate>55?AM:G),borderWidth:1.5}]
 },options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`Abandon Rate: ${c.raw}%`}}},scales:{x:{grid:{display:false},ticks:{font:{size:9},maxRotation:45}},y:{grid:{color:'#252f4566'},ticks:{callback:v=>v+'%'},max:100,beginAtZero:true}}}});
+
+// DSP-advertised cart abandonment chart
+new Chart($('cCartDsp'),{type:'bar',data:{
+  labels:cartDspData.map(r=>r.a),
+  datasets:[{label:'Abandon Rate %',data:cartDspData.map(r=>r.rate),backgroundColor:cartDspData.map(r=>r.rate>70?'#ef444466':r.rate>55?'#f59e0b66':'#22d3ee66'),borderColor:cartDspData.map(r=>r.rate>70?R:r.rate>55?AM:C),borderWidth:1.5}]
+},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`Abandon Rate: ${c.raw}%`,afterLabel:c=>cartDspData[c.dataIndex].name}}},scales:{x:{grid:{display:false},ticks:{font:{size:9},maxRotation:45}},y:{grid:{color:'#252f4566'},ticks:{callback:v=>v+'%'},max:100,beginAtZero:true}}}});
 
 // ═══ ASIN PERFORMANCE TAB ═══
 
